@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Task Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Daily Productivity Dashboard</p>
+        <h1>Stay on top of every task, every day.</h1>
+        <p class="hero-copy">
+          Track daily checklists, reset progress automatically each new day, manage tasks with full CRUD, and monitor completion with live charts.
+        </p>
+      </div>
+      <div class="hero-card">
+        <p class="hero-label">Today</p>
+        <h2 id="todayDate">Loading...</h2>
+        <p id="taskSummary">0 tasks scheduled today</p>
+        <button id="enableNotifications" class="secondary-btn" type="button">Enable Reminders</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="panel task-form-panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Task Database</p>
+            <h2>Add or update a task</h2>
+          </div>
+          <span id="formModeBadge" class="badge">Create mode</span>
+        </div>
+
+        <form id="taskForm" class="task-form">
+          <input type="hidden" id="taskId" name="taskId">
+
+          <label>
+            Task title
+            <input id="title" name="title" type="text" placeholder="Example: Review sales report" required>
+          </label>
+
+          <label>
+            Description
+            <textarea id="description" name="description" rows="3" placeholder="Add details about the task"></textarea>
+          </label>
+
+          <div class="form-grid">
+            <label>
+              Category
+              <input id="category" name="category" type="text" placeholder="Work, School, Health">
+            </label>
+
+            <label>
+              Priority
+              <select id="priority" name="priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+
+            <label>
+              Due date
+              <input id="dueDate" name="dueDate" type="date">
+            </label>
+
+            <label>
+              Due time
+              <input id="dueTime" name="dueTime" type="time">
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button class="primary-btn" type="submit">Save Task</button>
+            <button id="cancelEdit" class="ghost-btn" type="button" hidden>Cancel Edit</button>
+            <button id="resetToday" class="secondary-btn" type="button">Reset Today</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel overview-panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Progress Overview</p>
+            <h2>See what's done and what's next</h2>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Total Tasks</span>
+            <strong id="totalTasks">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Completed Today</span>
+            <strong id="completedTasks">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Pending Today</span>
+            <strong id="pendingTasks">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Completion Rate</span>
+            <strong id="completionRate">0%</strong>
+          </article>
+        </div>
+
+        <div class="charts-grid">
+          <article class="chart-card">
+            <div class="chart-header">
+              <h3>Daily Completion</h3>
+              <p>Checklist progress for today</p>
+            </div>
+            <canvas id="progressChart" width="320" height="220" aria-label="Daily completion chart"></canvas>
+          </article>
+
+          <article class="chart-card">
+            <div class="chart-header">
+              <h3>Task Priority Mix</h3>
+              <p>How your tasks are distributed</p>
+            </div>
+            <canvas id="priorityChart" width="320" height="220" aria-label="Priority chart"></canvas>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel tasks-panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Today's Checklist</p>
+            <h2>Your task list</h2>
+          </div>
+          <label class="search-field">
+            <span>Search</span>
+            <input id="searchInput" type="search" placeholder="Find a task">
+          </label>
+        </div>
+
+        <div id="notificationArea" class="notification-area" aria-live="polite"></div>
+        <div id="taskList" class="task-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <template id="taskCardTemplate">
+    <article class="task-card">
+      <div class="task-main">
+        <label class="checkbox-wrap">
+          <input class="task-check" type="checkbox">
+          <span class="custom-check"></span>
+        </label>
+
+        <div class="task-content">
+          <div class="task-topline">
+            <h3 class="task-title"></h3>
+            <span class="priority-pill"></span>
+          </div>
+          <p class="task-description"></p>
+          <div class="task-meta"></div>
+        </div>
+      </div>
+
+      <div class="task-actions">
+        <button class="icon-btn edit-btn" type="button">Edit</button>
+        <button class="icon-btn delete-btn" type="button">Delete</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
